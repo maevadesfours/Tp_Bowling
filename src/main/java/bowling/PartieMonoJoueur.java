@@ -6,7 +6,8 @@ package bowling;
  * final de ce joueur
  */
 public class PartieMonoJoueur {
-
+    
+    //ajouter classe tour 
 	/**
 	 * Constructeur
 	 */

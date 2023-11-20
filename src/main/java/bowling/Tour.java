@@ -8,14 +8,12 @@ import java.util.ArrayList;
 
 public class Tour {
 	private ArrayList<Lancer> lesLancers;
-	private int num;
+	private int numT;
+	private int nCoup=1;
+	private boolean terminee = false;
 
-	public Tour (ArrayList<Lancer> lesLancers, int num){
-		this.lesLancers = lesLancers;
-		this.num = num;
-	}
-	public Tour(int num){
-		this.num=num;
+	public Tour ( int numT){
+		this.numT = numT;
 	}
 	public int  Score(){
 		int score=0;
@@ -37,21 +35,49 @@ public class Tour {
 			res= true;
 		return res;
 	}
-	public ArrayList<Lancer> getLancer() {
-		return lesLancers;
+	public boolean Terminee() {
+		return terminee;
 	}
-	public double bonus(){
-		double ret=0;
-		Tour tourprecedent=new Tour(num-1);
-		//fait un spare
-		if(Spare()==true) {
-			ret=lesLancers.get(0).getnbQuillesTombees();
+	public int getScore() {
+		int score = 0;
+		for (Lancer lancer : lesLancers) {
+			score += lancer.getnbQuillesTombees();
 		}
-		//fait un strike
-		if(Strike()==true){
-			ret=lesLancers.get(0).getnbQuillesTombees()+lesLancers.get(1).getnbQuillesTombees();
+		return score;
+	}
+	public int getScoreLancer(int numLancer) {
+		if (numLancer >= 1 && numLancer <= lesLancers.size()) {
+			return lesLancers.get(numLancer - 1).getnbQuillesTombees();
+		} else {
+			return 0;
 		}
-		return ret;
 	}
 
+	public int getProchainNumeroCoup() {
+		return nCoup;
+	}
+	public boolean enregistreLancer(Lancer lancer) {
+		if (nCoup == 1) {
+			lesLancers.add(lancer);
+			if (getScore() == PartieMonoJoueur.quilles && numT != PartieMonoJoueur.nbTours) {
+				terminee = true;
+			} else if (getScore() == PartieMonoJoueur.quilles) {
+				nCoup += 1;
+			} else {
+				nCoup++;
+			}
+		} else if (nCoup == 2) {
+			lesLancers.add(lancer);
+			terminee = true;
+			if (numT == PartieMonoJoueur.nbTours && !(getScore() < PartieMonoJoueur.quilles)) {
+				nCoup++;
+				terminee = false;
+			}
+		} else if (nCoup == 3) {
+			lesLancers.add(lancer);
+			terminee = true;
+		}
+
+		return !terminee;
+	}
 }

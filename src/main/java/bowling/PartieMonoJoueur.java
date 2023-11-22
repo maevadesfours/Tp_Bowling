@@ -8,8 +8,8 @@ import java.util.ArrayList;
  * final de ce joueur
  */
 public class PartieMonoJoueur {
-	private ArrayList<Tour> partie=new ArrayList<>() ;
-	public static final int nbTours = 10;
+	private ArrayList<Tour> partie =new ArrayList<>() ;
+	public static final int nbTours  = 10;
 	public static final int quilles = 10;
 	private int nTour = 1;
 	/**
@@ -19,6 +19,7 @@ public class PartieMonoJoueur {
 		for (int i = 1; i <= nbTours; i++) {
 			partie.add(new Tour(i));
 	}
+        }
 		
 	/**
 	 * Cette méthode doit être appelée à chaque lancer de boule
@@ -27,10 +28,10 @@ public class PartieMonoJoueur {
 	 * @throws IllegalStateException si la partie est terminée
 	 * @return vrai si le joueur doit lancer à nouveau pour continuer son tour, faux sinon	
 	 */
-		public boolean enregistreLancer(int nombreDeQuillesAbattues) {
+		public boolean enregistreLancer(int nbQuillesTombees) {
 			if (estTerminee()) throw new IllegalStateException("la partie est terminée !");
 
-			Lancer l = new Lancer(nombreDeQuillesAbattues);
+			Lancer l = new Lancer(nbQuillesTombees);
 			boolean continuerTour = partie.get(nTour - 1).enregistreLancer(l);
 
 			if (!continuerTour) {
@@ -40,7 +41,6 @@ public class PartieMonoJoueur {
 			return continuerTour;
 		}
 	
-
 	/**
 	 * Cette méthode donne le score du joueur.
 	 * Si la partie n'est pas terminée, on considère que les lancers restants
@@ -113,7 +113,7 @@ public class PartieMonoJoueur {
 			return partie.get(nTour).getProchainNumeroCoup();
 		}
 	}
-	}
+}
 	
 
 	
